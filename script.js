@@ -26,7 +26,8 @@ function endExam() {
   document.getElementById('exam').style.display = 'none';
   document.getElementById('inputForm').style.display = 'inline-block';
   document.getElementById('footer').style.display = '';
-  document.getElementById('examFrame').contentWindow.location.reload();
+  //Reload iframe to wipe all exam progress
+  document.getElementById('examFrame').src += '';
 }
 function supportsFullscreen() {
   return document.fullscreenEnabled || document.mozFullscreenEnabled ||  document.webkitFullscreenEnabled || document.msFullscreenEnabled;
