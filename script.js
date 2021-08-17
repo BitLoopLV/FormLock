@@ -6,7 +6,11 @@ function beginExam() {
     document.getElementById('examFrame').src = examSrc;
     document.getElementById('exam').style.display = 'inline-block';
     document.getElementById('inputForm').style.display = 'none';
+    document.getElementById('footer').style.display = 'none';
     launchFullscreen(document.documentElement, endExam);
+    document.addEventListener('visibilitychange', e => {
+      endExam();
+    });
   }
   else {
     alert('Invalid exam ID, please check if the link has been correctly copied.')
@@ -16,6 +20,7 @@ function beginExam() {
 function endExam() {
   document.getElementById('exam').style.display = 'none';
   document.getElementById('inputForm').style.display = 'inline-block';
+  document.getElementById('footer').style.display = '';
   document.getElementById('examFrame').contentWindow.location.reload();
 }
 
