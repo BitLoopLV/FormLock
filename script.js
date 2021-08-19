@@ -1,3 +1,4 @@
+var timer;
 function beginExam() {
   //var input = document.getElementById('inputBox').value;
   var examId = window.location.search.split('?examId=')[1];
@@ -8,7 +9,7 @@ function beginExam() {
       document.getElementById('exam').style.display = 'inline-block';
       document.getElementById('inputForm').style.display = 'none';
       document.getElementById('footer').style.display = 'none';
-      launchFullscreen(document.documentElement, endExam);
+      launchFullscreen(document.documentElement, resumeExamPrompt);
       document.addEventListener('visibilitychange', e => {
         endExam();
       });
@@ -21,13 +22,26 @@ function beginExam() {
     alert('Unsupported browser, please ensure you are using Chrome or Safari on desktop');
   }
 }
-
+function resumeExamPrompt() {
+  document.getElementById('inputForm').style.display = 'none';
+  document.getElementById('exam').style.display = 'none';
+  document.getElementById('resumeBox').style.display = '';
+  timer = window.setTimeout(endExam, 5000);
+}
+function resumeExam() {
+  window.clearTimeout(timer);
+  document.getElementById('exam').style.display = 'inline-block';
+  document.getElementById('resumeBox').style.display = 'none';
+  launchFullscreen(document.documentElement, endExam);
+}
 function endExam() {
   document.getElementById('exam').style.display = 'none';
   document.getElementById('inputForm').style.display = 'inline-block';
   document.getElementById('footer').style.display = '';
-  //Reload iframe to wipe all exam progress
-  document.getElementById('examFrame').src += '';
+  document.getElementById('resumeBox').style.display = 'none';
+  //Remove iframe and reload to wipe all exam progress
+  document.getElementById('examFrame').remove();
+  window.location.reload(false);
 }
 function supportsFullscreen() {
   return document.fullscreenEnabled || document.mozFullscreenEnabled ||  document.webkitFullscreenEnabled || document.msFullscreenEnabled;
